@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { UserAvatar } from './components/UserAvatar';
-import useGetPosts from './hooks/useGetPosts'
-import useGetUsers from './hooks/useGetUsers';
-import { User } from './data/user';
+import useGetPosts from '../hooks/useGetPosts'
+import { User } from '../data/user';
+import { SelectableUserAvatar } from '../components/SelectableUserAvatar';
+import { PostCard } from '../components/Post';
+import { useUsers } from '../contexts/UsersContext';
 
 function App() {
-  const {data: users, isLoading} = useGetUsers();
+  const {users, isLoading} = useUsers();
   const {data: posts} = useGetPosts();
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
@@ -30,13 +31,13 @@ function App() {
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <div className='mx-8 mt-8 mb-2'>
+      <div className='mx-8 mt-8 mb-4'>
         <h1 className='text-lg font-bold'>Posts</h1>
       </div>
-      <div className='flex flex-row items-center gap-4 overflow-scroll w-full px-8 py-2'>
+      <div className='flex flex-row items-center lg:justify-center gap-4 overflow-auto w-full px-8 py-2'>
         {
           users?.map(user => (
-            <UserAvatar 
+            <SelectableUserAvatar
               key={user.id}
               user={user} 
               isSelected={!!selectedUsers?.includes(user)} 
@@ -45,16 +46,12 @@ function App() {
           ))
         }
       </div>
-      <div className='flex flex-col gap-6 mt-4 m-8'>
+      <div className='flex flex-col gap-6 mt-4 m-8 lg:max-w-[60%]'>
         {
           filteredPosts?.map(post => {
             const postUser = users?.find(user => user.id === post.userId);
             return (
-              <article className='p-6 border border-gray-500 rounded-md w-full'>
-                <h1 className='font-bold text-lg'>{post.title}</h1>
-                <p>{post.body}</p>
-                <p>{postUser?.username.toLowerCase()}</p>
-              </article>
+              <PostCard post={post} author={postUser} clickable />
             )
           })
         }
