@@ -7,7 +7,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProps>(({label, error, ...params}, ref) => {
-    console.log(error)
     return (
         <div>
             <label htmlFor={params.id} className="text-xs text-gray-500 font-semibold">{label}</label>

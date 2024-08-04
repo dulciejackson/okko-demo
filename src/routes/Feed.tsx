@@ -56,7 +56,7 @@ function App() {
           filteredPosts?.map(post => {
             const postUser = users?.find(user => user.id === post.userId);
             return (
-              <PostCard post={post} author={postUser} clickable />
+              <PostCard post={post} author={postUser} clickable key={post.id} />
             )
           })
         }

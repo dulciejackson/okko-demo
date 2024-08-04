@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useUsers } from "../contexts/UsersContext";
 import { useMemo } from "react";
 import { UserAvatar } from "../components/UserAvatar";
@@ -8,13 +8,16 @@ import { MdOutlineArrowBack } from "react-icons/md";
 
 export const UserProfile: React.FC = () => {
     let { userId } = useParams();
+    const navigate = useNavigate();
     const {users} = useUsers();
     const user = useMemo(() => users.find(user => user.id === Number(userId)), [users, userId]);
 
     const {data: userPosts} = useGetPostsByUser(userId);
 
-    // TODO: Redirect to feed
-    if (!user) return null;
+    if (!user) {
+        navigate("/");
+        return;
+    }
 
     return (
         <div className='flex flex-col items-center justify-center'>

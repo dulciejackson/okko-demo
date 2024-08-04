@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Input } from "../components/Input";
 import { TextArea } from "../components/TextArea";
-import { MdSend } from "react-icons/md";
+import { MdOutlineArrowBack, MdSend } from "react-icons/md";
 import useCreatePost from "../hooks/useCreatePost";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface PostFormInputs {
     title: string;
@@ -39,6 +39,9 @@ export const CreatePost = () => {
 
     return (
         <div className='flex flex-col items-center justify-center'>
+            <Link to="/" className="absolute top-0 left-0 m-4 rounded-md p-2">
+                <MdOutlineArrowBack color="black" size={24} />
+            </Link>
             <div className="w-full lg:max-w-[60%] p-8 flex flex-col items-center">
                 <h1 className='text-lg font-bold mb-4'>Create a post</h1>
 
