@@ -5,6 +5,8 @@ import { MdOutlineArrowBack, MdSend } from "react-icons/md";
 import useCreatePost from "../hooks/useCreatePost";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import useGetPosts from "../hooks/useGetPosts";
+import { ThreeDots } from "react-loader-spinner";
 
 interface PostFormInputs {
     title: string;
@@ -12,6 +14,7 @@ interface PostFormInputs {
 }
 
 export const CreatePost = () => {
+    const {refetch} = useGetPosts();
     const createPostMutation = useCreatePost();
     const navigate = useNavigate();
 
@@ -22,6 +25,7 @@ export const CreatePost = () => {
       } = useForm<PostFormInputs>()
 
     const onSubmit: SubmitHandler<PostFormInputs> = (data) => {
+        // If the create post mutation isn't already in progress, use it now
         if (!createPostMutation.isPending) {
             createPostMutation.mutate({
                 title: data.title,
@@ -32,8 +36,18 @@ export const CreatePost = () => {
     }
 
     useEffect(() => {
+        // Once the create post mutation succeeds, refetch all posts
+        // and then navigate back to the feed
         if (createPostMutation.isSuccess) {
+            refetch();
             navigate("/")
+        }
+    }, [createPostMutation])
+
+    useEffect(() => {
+        if (createPostMutation.isError) {
+            // TODO: Show error message
+            // With this fake API we never get errors, so haven't implemented this yet
         }
     }, [createPostMutation])
 
@@ -48,9 +62,15 @@ export const CreatePost = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
                     <Input {...register("title", {required: true, minLength: 3})} placeholder="Add a title" label="Title" id="post-title" error={errors.title}/>
                     <TextArea {...register("body", {required: true, minLength: 10})} placeholder="What do you want to say?" label="Post" id="post-body" error={errors.body}/>
-                    <button type="submit" disabled={createPostMutation.isPending} className={`flex flex-row gap-4 rounded-md items-center justify-center p-2 text-white ${createPostMutation.isPending ? "bg-gray-500" : "bg-black"}`}>
-                        <p>Post</p>
-                        <MdSend size={24} color="white" />
+                    <button type="submit" disabled={createPostMutation.isPending} className={`flex flex-row gap-4 rounded-md items-center justify-center p-2 text-white min-h-10 ${createPostMutation.isPending ? "bg-gray-500" : "bg-black"}`}>
+                        {createPostMutation.isPending ? (
+                            <ThreeDots visible={true} color="white" height={12} />
+                        ) : (
+                            <>
+                                <p>Post</p>
+                                <MdSend size={24} color="white" />
+                            </>
+                        )}
                     </button>
                 </form>
             </div>
