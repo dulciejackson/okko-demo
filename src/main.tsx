@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Feed from './routes/Feed.tsx'
 import { UserProfile } from './routes/UserProfile.tsx'
 import { UsersProvider } from './contexts/UsersContext.tsx'
+import { CreatePost } from './routes/CreatePost.tsx'
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/users/:userId",
     element: <UserProfile />
+  },
+  {
+    path: "/posts/new",
+    element: <CreatePost />
   }
 ]);
 

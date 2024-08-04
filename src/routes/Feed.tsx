@@ -4,6 +4,8 @@ import { User } from '../data/user';
 import { SelectableUserAvatar } from '../components/SelectableUserAvatar';
 import { PostCard } from '../components/Post';
 import { useUsers } from '../contexts/UsersContext';
+import { Link } from 'react-router-dom';
+import { MdAdd } from "react-icons/md";
 
 function App() {
   const {users, isLoading} = useUsers();
@@ -34,6 +36,9 @@ function App() {
       <div className='mx-8 mt-8 mb-4'>
         <h1 className='text-lg font-bold'>Posts</h1>
       </div>
+      <Link to="/posts/new" className='absolute top-0 right-0 mt-8 mr-4'>
+          <MdAdd size={24} />
+        </Link>
       <div className='flex flex-row items-center lg:justify-center gap-4 overflow-auto w-full px-8 py-2'>
         {
           users?.map(user => (
