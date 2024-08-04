@@ -5,7 +5,7 @@ import { Post } from "../data/post";
 const useCreatePost = () => {
     return useMutation({
     mutationKey: ['useCreatePost'],
-    mutationFn: async (post: Omit<Post, "id">) => axios.post<Post>("https://jsonplaceholder.typicode.com/posts", JSON.stringify(post))
+    mutationFn: async (post: Omit<Post, "id">) => axios.post<Post>(`${import.meta.env.VITE_API_URL}/posts`, JSON.stringify(post))
         .then(res => res.data)
   })
 }

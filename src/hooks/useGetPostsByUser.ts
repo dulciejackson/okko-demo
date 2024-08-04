@@ -5,7 +5,7 @@ import { Post } from "../data/post";
 const useGetPostsByUser = (userId: string | undefined ) => {
     return useQuery({
         queryKey: ['useGetPostsByUser'],
-        queryFn: async () => axios.get<Post[]>(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
+        queryFn: async () => axios.get<Post[]>(`${import.meta.env.VITE_API_URL}/posts?userId=${userId}`)
             .then(res => res.data)
   })
 }
