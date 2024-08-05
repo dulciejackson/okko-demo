@@ -37,9 +37,11 @@ function App() {
       <div className='mx-8 mt-8 mb-4'>
         <h1 className='text-lg font-bold'>Posts</h1>
       </div>
+
       <Link to="/posts/new" className='absolute top-0 right-0 mt-8 mr-4'>
           <MdAdd size={24} />
-        </Link>
+      </Link>
+      
       <div className='flex flex-row items-center lg:justify-center gap-4 overflow-auto w-full px-8 py-2'>
         <TailSpin visible={usersLoading} wrapperClass='mb-4' color='gray' ariaLabel='User loading spinner' />
         {

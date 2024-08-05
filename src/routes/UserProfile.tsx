@@ -45,7 +45,7 @@ export const UserProfile: React.FC = () => {
                 usersLoading ? (
                     <h1>Loading...</h1>
                 ) : (
-                    <div>
+                    <div className="text-center">
                         <h1 className="text-xl font-bold">{user.name}</h1>
                         <address className="text-sm text-gray-400 not-italic">@{user.username.toLowerCase()}</address>
                     </div>
